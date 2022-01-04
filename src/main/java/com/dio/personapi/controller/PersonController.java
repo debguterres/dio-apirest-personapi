@@ -1,6 +1,9 @@
 package com.dio.personapi.controller;
 
+import javax.validation.Valid;
+
 import com.dio.personapi.dto.MessageResponseDTO;
+import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.entity.Person;
 import com.dio.personapi.repository.IPersonRepository;
 import com.dio.personapi.service.PersonService;
@@ -27,8 +30,8 @@ public class PersonController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponseDTO createPerson(@RequestBody Person person) {
-        return personService.createPerson(person);
+    public MessageResponseDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
+        return personService.createPerson(personDTO);
      
     }
 }
