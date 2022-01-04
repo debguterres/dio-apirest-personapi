@@ -1,8 +1,12 @@
 package com.dio.personapi.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.dio.personapi.dto.MessageResponseDTO;
 import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.entity.Person;
+import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.mapper.IPersonMapper;
 import com.dio.personapi.repository.IPersonRepository;
 
@@ -31,4 +35,20 @@ public class PersonService {
                 .build();
     }
     
+    public List<PersonDTO> listAll() {
+
+        List<Person> allPeople = personRepository.findAll();
+        return allPeople.stream()
+        .map(personMapper::toDTO)
+        .collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+        
+        return personMapper.toDTO(person); 
+        
+    }
+
 }
